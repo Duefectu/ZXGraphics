@@ -1,0 +1,78 @@
+{
+	"name": "zxgraphics",
+	"displayName": "ZX Graphics Editor",
+	"description": "Graphics editor for ZX Spectrum developers",
+	"version": "0.0.1",
+	"publisher": "DuefectuCorp",
+	"private": false,
+	"license": "MIT",
+	"icon": "images/icon256.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Duefectu/ZXGraphics"
+	},
+	"engines": {
+		"vscode": "^1.65.0"
+	},
+	"categories": [
+		"Visualization",
+		"Other"
+	],
+	"keywords": [
+		"Retro",
+		"ZX",
+		"Spectrum",
+		"GDU",
+		"UDG",
+		"Boriel",
+		"Z80"
+	],
+	"activationEvents": [
+		"onCustomEditor:ZXGraphics.GDU_Editor",
+		"onCommand:ZXGraphics.GDU_Editor.New"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"customEditors": [
+			{
+				"viewType": "ZXGraphics.GDU_Editor",
+				"displayName": "GDU Editor",
+				"selector": [
+					{
+						"filenamePattern": "*.udg"
+					},
+					{
+						"filenamePattern": "*.gdu"
+					},
+					{
+						"filenamePattern": "*.fnt"
+					}
+				]
+			}
+		],
+		"commands": [
+			{
+				"command": "ZXGraphics.GDU_Editor.New",
+				"title": "Create new GDU file",
+				"category": "GDU Editor"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint \"src/**/*.ts\"",
+		"watch": "tsc -w -p ./"
+	},
+	"devDependencies": {
+		"@types/node": "^16.11.7",
+		"@types/vscode": "^1.65.0",
+		"@typescript-eslint/eslint-plugin": "^5.42.0",
+		"@typescript-eslint/parser": "^5.42.0",
+		"eslint": "^8.26.0",
+		"typescript": "^4.8.4"
+	},
+	"dependencies": {
+		"fund": "^1.0.0"
+	}
+}

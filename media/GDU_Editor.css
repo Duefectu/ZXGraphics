@@ -1,0 +1,196 @@
+html, body {
+	height: 100%;
+	font-size: 14px;
+}
+
+.opacity{
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	z-index: 10;
+	display: none;
+	background-color: #80808080;
+}
+
+.modal{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+ 	background: #80808080;
+ 	/*display: flex;*/
+ 	justify-content: center;
+ 	align-items: center;
+	z-index: 11;
+	display: none;
+}
+
+.modalWindow{
+	background-color: gray;
+	border: 1px solid white;
+	width: 400px;
+	height: 220px;	
+	padding: 8px;
+}
+
+.buttonModal{
+	border: 1px solid white;
+	padding: 4px;
+	cursor: pointer;
+	width: 75px;
+	display: inline-block;
+	text-align: center;
+}
+
+.main{
+	width: 100%;
+	display: flex;
+  	flex-wrap: wrap;
+	flex-direction: row;
+}
+
+.toolBar{
+	width: 100%;
+	margin-bottom: 4px;	
+}
+
+.toolBarItem{
+	display: inline-block;
+	position: relative;
+	top: -10px;
+}
+
+.toolBarButton{
+	display: inline-block;
+	position: relative;
+	top: -6px;
+	border: 1px solid gray;
+	cursor: pointer;
+	width: 22px;
+	height: 22px;
+}
+
+.toolBarButton:hover{
+	background-color: lightgray;
+}
+
+.toolBarButton img{
+	width: 16px;
+	height: 16px;
+	margin: 2px;
+}
+
+.toolBar-slider{
+	position: relative;
+	top: 0px;
+}
+
+.toolBarSpace{
+	display: inline-block;
+	width: 16px;
+}
+
+.buttonLike{
+	border: 1px solid gray;
+	padding: 0 2px;
+	cursor: pointer;
+}
+
+.colorBox{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	position: relative;
+	top: 2px;
+	cursor: pointer;
+}
+
+.patterns{
+	flex: 160px;
+	height: Calc(100vh - 80px);
+	overflow-y: auto;
+}
+
+.patterns-main{
+	display: flex;
+  	flex-wrap: wrap;
+	flex-direction: row;	
+}
+
+.patterns-div{
+	margin: 2px;
+	padding: 0;
+	cursor: pointer;
+}
+
+.patterns-itemLabel{
+	font-size: 12px;
+	color: white;
+	background-color: black;
+}
+
+.patterns-item{
+	width: 34px;
+	height: 34px;
+	color: blue;
+	border: 1px solid white;
+	background-color: gray;
+}
+
+.editor{
+	flex: Calc(100vw - 360px);
+	height: Calc(100vh - 80px);
+	overflow: scroll;
+}
+
+.divEditor{
+	width: 100%;
+	height: 100%;
+}
+
+.preview{
+	flex: 100px;
+}
+
+.previewLabel{
+	width: 50px;
+	min-width: 50px;
+	max-width: 50px;
+	display: inline-block !important;
+}
+
+.previewInput{
+	width: 50px;
+	min-width: 50px;
+	max-width: 50px;
+	display: inline-block !important;
+}
+
+
+.selected{
+	border: 1px dashed red;
+}
+
+
+.selectorColores{
+	display: none;
+	position: fixed;
+	border: 1px solid gray;
+	background-color: white;
+	color: black;
+	z-index: 11;
+	width: 148px;
+}
+
+
+.itemColor{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 1px solid black;
+	margin: 1px;
+	cursor: pointer;
+}
+
+.itemColor:hover{
+	border: 1px dashed red;
+}
