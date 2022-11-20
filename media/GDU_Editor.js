@@ -68,6 +68,9 @@
 			this.copyNumPatterns=0;			// Number of patterns to copy
 			this.copyBuffer=[];				// Array of data of the copy buffer
 
+			this.newGDU=[ 0,60,66,66,126,66,66,0,0,124,66,124,66,66,124,0,0,60,66,64,64,66,60,0,0,120,68,66,66,68,120,0,0,126,64,124,64,64,126,0,0,126,64,124,64,64,64,0,0,60,66,64,78,66,60,0,0,66,66,126,66,66,66,0,0,62,8,8,8,8,62,0,0,2,2,2,66,66,60,0,0,68,72,112,72,68,66,0,0,64,64,64,64,64,126,0,0,66,102,90,66,66,66,0,0,66,98,82,74,70,66,0,0,60,66,66,66,66,60,0,0,124,66,66,124,64,64,0,0,60,66,66,82,74,60,0,0,124,66,66,124,68,66,0,0,60,64,60,2,66,60,0,0,254,16,16,16,16,16,0,0,66,66,66,66,66,60,0 ];
+			this.newFont=[ 0,0,0,0,0,0,0,0,0,16,16,16,16,0,16,0,0,36,36,0,0,0,0,0,0,36,126,36,36,126,36,0,0,8,62,40,62,10,62,8,0,98,100,8,16,38,70,0,0,16,40,16,42,68,58,0,0,8,16,0,0,0,0,0,0,4,8,8,8,8,4,0,0,32,16,16,16,16,32,0,0,0,20,8,62,8,20,0,0,0,8,8,62,8,8,0,0,0,0,0,0,8,8,16,0,0,0,0,62,0,0,0,0,0,0,0,0,24,24,0,0,0,2,4,8,16,32,0,0,60,70,74,82,98,60,0,0,24,40,8,8,8,62,0,0,60,66,2,60,64,126,0,0,60,66,12,2,66,60,0,0,8,24,40,72,126,8,0,0,126,64,124,2,66,60,0,0,60,64,124,66,66,60,0,0,126,2,4,8,16,16,0,0,60,66,60,66,66,60,0,0,60,66,66,62,2,60,0,0,0,0,16,0,0,16,0,0,0,16,0,0,16,16,32,0,0,4,8,16,8,4,0,0,0,0,62,0,62,0,0,0,0,16,8,4,8,16,0,0,60,66,4,8,0,8,0,0,60,74,86,94,64,60,0,0,60,66,66,126,66,66,0,0,124,66,124,66,66,124,0,0,60,66,64,64,66,60,0,0,120,68,66,66,68,120,0,0,126,64,124,64,64,126,0,0,126,64,124,64,64,64,0,0,60,66,64,78,66,60,0,0,66,66,126,66,66,66,0,0,62,8,8,8,8,62,0,0,2,2,2,66,66,60,0,0,68,72,112,72,68,66,0,0,64,64,64,64,64,126,0,0,66,102,90,66,66,66,0,0,66,98,82,74,70,66,0,0,60,66,66,66,66,60,0,0,124,66,66,124,64,64,0,0,60,66,66,82,74,60,0,0,124,66,66,124,68,66,0,0,60,64,60,2,66,60,0,0,254,16,16,16,16,16,0,0,66,66,66,66,66,60,0,0,66,66,66,66,36,24,0,0,66,66,66,66,90,36,0,0,66,36,24,24,36,66,0,0,130,68,40,16,16,16,0,0,126,4,8,16,32,126,0,0,14,8,8,8,8,14,0,0,0,64,32,16,8,4,0,0,112,16,16,16,16,112,0,0,16,56,84,16,16,16,0,0,0,0,0,0,0,0,255,0,28,34,120,32,32,126,0,0,0,56,4,60,68,60,0,0,32,32,60,34,34,60,0,0,0,28,32,32,32,28,0,0,4,4,60,68,68,60,0,0,0,56,68,120,64,60,0,0,12,16,24,16,16,16,0,0,0,60,68,68,60,4,56,0,64,64,120,68,68,68,0,0,16,0,48,16,16,56,0,0,4,0,4,4,4,36,24,0,32,40,48,48,40,36,0,0,16,16,16,16,16,12,0,0,0,104,84,84,84,84,0,0,0,120,68,68,68,68,0,0,0,56,68,68,68,56,0,0,0,120,68,68,120,64,64,0,0,60,68,68,60,4,6,0,0,28,32,32,32,32,0,0,0,56,64,56,4,120,0,0,16,56,16,16,16,12,0,0,0,68,68,68,68,56,0,0,0,68,68,40,40,16,0,0,0,68,84,84,84,40,0,0,0,68,40,16,40,68,0,0,0,68,68,68,60,4,56,0,0,124,8,16,32,124,0,0,14,8,48,8,8,14,0,0,8,8,8,8,8,8,0,0,112,16,12,16,16,112,0,0,20,40,0,0,0,0,0,60,66,153,161,161,153,66,60 ];
+
 			this._initElements();		
 		}
 
@@ -80,8 +83,12 @@
 
 			btnExportTAP.onclick=this.ExportToTAP;
 			btnExportBOR.onclick=this.ExportToBOR;
+			btnExportDIM.onclick=this.ExportToDIM;
 			btnExportASM.onclick=this.ExportToASM;
 			btnExportDATA.onclick=this.ExportToDATA;
+
+			btnNewCancel.onclick=this.New_Cancel;
+			btnNewOK.onclick=this.New_OK;
 
 			btnClear.onclick=this.btnClear_Click;
 			btnCut.onclick=this.btnCut_Click;
@@ -245,6 +252,9 @@
 						this.patternMode=1;
 						this.patternsCount=96;
 						break;
+					default:
+						editor.ModalNewShow(1);
+						break;
 				}
 			}
 			this.CreateElements();
@@ -259,7 +269,7 @@
 				let pattern=new Pattern();				
 				let id=0;
 				for(var m=0; m<8; m++){
-					let byte=data[idData];
+					let byte=parseInt(data[idData]);
 					idData++;
 					id+=7;
 					for(var b=0; b<8; b++){
@@ -338,6 +348,9 @@
 			let idx=0;
 			for(var y=0; y<8; y++){
 				for(var x=0; x<8; x++){
+					if(pattern==null || pattern.Points==null){
+						continue;
+					}
 					let value=pattern.Points[idx];
 					if(value==0){
 						ctx.fillStyle=editor.palette[editor.paperColor];
@@ -396,6 +409,9 @@
 
 		RedrawEditor(){
 			let cnv=document.querySelector("#cnvEditor");
+			if(cnv==null){
+				return;
+			}
 			let ctx=cnv.getContext('2d');
 
 			cnv.width=editor.patternWidth*8*editor.zoom;
@@ -415,6 +431,9 @@
 					
 					for(var y=0; y<8; y++){
 						for(var x=0; x<8; x++){
+							if(pattern==null || pattern.Points==null){
+								continue;
+							}
 							let value=pattern.Points[idx];
 							if(value==0){
 								ctx.fillStyle=editor.palette[editor.paperColor];
@@ -666,6 +685,9 @@
 					let idx=0;
 					for(var y=0; y<8; y++){
 						for(var x=0; x<8; x++){
+							if(pattern==null || pattern.Points==null){
+								continue;
+							}
 							let value=pattern.Points[idx];
 							if(value==0){
 								ctx.fillStyle=editor.palette[editor.paperColor];
@@ -696,6 +718,7 @@
 			editor.ShowClass("export-TAP");
 			editor.HideClass("export-DATA");
 			editor.HideClass("export-BOR");
+			editor.HideClass("export-DIM");
 			modalExport.style.display="flex";
 		}
 
@@ -706,6 +729,18 @@
 			editor.HideClass("export-TAP");
 			editor.HideClass("export-DATA");
 			editor.ShowClass("export-BOR");
+			editor.HideClass("export-DIM");
+			modalExport.style.display="flex";
+		}
+
+
+		ExportToDIM(){
+			editor.modal="DIM";
+			txtExportFileName.value="Test.bas";
+			editor.HideClass("export-TAP");
+			editor.HideClass("export-DATA");
+			editor.HideClass("export-BOR");
+			editor.ShowClass("export-DIM");
 			modalExport.style.display="flex";
 		}
 
@@ -716,6 +751,7 @@
 			editor.HideClass("export-TAP");
 			editor.HideClass("export-DATA");
 			editor.ShowClass("export-BOR");
+			editor.HideClass("export-DIM");
 			modalExport.style.display="flex";
 		}
 
@@ -726,6 +762,7 @@
 			editor.HideClass("export-TAP");
 			editor.ShowClass("export-DATA");
 			editor.HideClass("export-BOR");
+			editor.HideClass("export-DIM");
 			modalExport.style.display="flex";
 		}
 
@@ -744,12 +781,15 @@
 				case "BOR":
 					editor.ExportToBOR_Accept();
 					break;
+				case "DIM":
+					editor.ExportToDIM_Accept();
+					break;
 				case "ASM":
 					editor.ExportToASM_Accept();
 					break;
 				case "DATA":
 					editor.ExportToDATA_Accept();
-					break;
+					break;					
 			}
 		}
 
@@ -766,6 +806,14 @@
 			editor.GetFileData().then(data => {
 				let dataCode=editor.ExportToBOR_DO(data,txtExportLabelName.value);
 				vscode.postMessage({ type: 'exportBOR', typeData: "binary", body: dataCode, fileName: txtExportFileName.value });
+			});
+		}
+
+
+		ExportToDIM_Accept(){
+			editor.GetFileData().then(data => {
+				let dataCode=editor.ExportToDIM_DO(data,txtExportVariableName.value);
+				vscode.postMessage({ type: 'exportDIM', typeData: "binary", body: dataCode, fileName: txtExportFileName.value });
 			});
 		}
 
@@ -792,6 +840,37 @@
 				line=line+"\r\n";
 			}
 			txt=txt+"END ASM\r\n";
+			return txt;
+		}
+
+
+		ExportToDIM_DO(data,varName){
+			let lines=data.length/8;			
+			let txt="DIM "+varName+"("+lines+",8) AS uByte => { _\r\n";
+			let counter=0;
+			let line=""
+			for(var n=0; n<data.length; n++){
+				if(line==""){
+					line="\t{ ";
+				}else{
+					line=line+",";
+				}
+				line=line+data[n].toString();
+				counter++;
+				if(counter==8){
+					if(n==data.length-1){
+						txt=txt+line+"} _\r\n";	
+					}else{
+						txt=txt+line+"}, _\r\n";
+					}
+					line="";
+					counter=0;
+				}
+			}
+			if(line!=""){
+				line=line+"} _\r\n";
+			}
+			txt=txt+"}\r\n";
 			return txt;
 		}
 
@@ -1027,6 +1106,28 @@
 			}
 		}
 		*/
+
+
+		/* - New ------------------------------------------------------------------------------- */
+		ModalNewShow(show){
+			modalNew.style.display="flex";
+		}
+
+
+		New_Cancel(){
+			modalNew.style.display="none";
+		}
+
+
+		New_OK(){
+			modalNew.style.display="none";
+
+			if(radGDU.checked){
+				editor.Reset(editor.newGDU);
+			}else if(radFont.checked){
+				editor.Reset(editor.newFont);
+			}
+		}
 
 
 		/* - Tools ----------------------------------------------------------------------------- */

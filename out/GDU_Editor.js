@@ -288,31 +288,58 @@ class GDU_EditorProvider {
 				<div id="divSelectorColores" class="selectorColores"></div>
 
 				<div id="modalExport" class="modal">
-					<div class="modalWindow" style="position: relative;">
+					<div class="modalWindow">
 						<div>
 							Filename
-							<input id="txtExportFileName" type="text" value="Test.tap">
+							<input id="txtExportFileName" type="text" class="input100" value="Test.tap">
 						</div>
 						<div class="export-TAP">
 							Filename for ZX Spectrum
-							<input id="txtExportZXFileName" type="text" value="Test.bin">
+							<input id="txtExportZXFileName" type="text" class="input100" value="Test.bin">
 						</div>
 						<div class="export-TAP">
 							ZX Spectrum address
-							<input id="txtExportZXAddress" type="number" value="49152">
+							<input id="txtExportZXAddress" type="number" class="input100" value="49152">
 						</div>
 						<div class="export-BOR">
 							Label name
-							<input id="txtExportLabelName" type="text" value="Test">
+							<input id="txtExportLabelName" type="text" class="input100" value="Test">
+						</div>
+						<div class="export-DIM">
+							Variable name
+							<input id="txtExportVariableName" type="text" class="input100" value="Test">
 						</div>
 						<div class="export-DATA">
 							Line number
-							<input id="txtExportLineNumber" type="numeric" value="9000">
+							<input id="txtExportLineNumber" type="numeric" class="input100" value="9000">
 						</div>
 						<br/>
-						<div style="position: absolute; bottom: 8px; right: 8px;">
-							<div id="btnExportCancel" class="buttonModal" style="background-color: red;">Cancel</div>
-							<div id="btnExportExport" class="buttonModal" style="background-color: green;">Export</div>
+						<div class="modalButtons">
+							<div id="btnExportCancel" class="buttonModal bgRed">Cancel</div>
+							<div id="btnExportExport" class="buttonModal bgGreen">Export</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="modalNew" class="modal">
+					<div id="modalNewWindow" class="modalWindow">
+						<div>
+							The selected file does not contain data that I can recognise.<br/>
+							Do you want to discard the file's content and replace it with a new one?
+						</div>
+						<br/>
+						<div>		
+							<input id="radGDU" name="fileType" type="radio" class="radioButton" checked>
+							<label for="radGDU">GDU / UDG data</label>
+						</div>
+						<div>		
+							<input id="radFont" name="fileType" type="radio" class="radioButton">
+							<label for="radFont">Font data</label>
+						</div>
+						<br/>
+						<div class="modalButtons">
+							<div id="btnNewCancel" class="buttonModal bgRed">Cancel</div>
+							<div id="btnNewOK" class="buttonModal bgGreen noWidth">OK, Create new content</div>
 						</div>
 					</div>
 				</div>
@@ -415,10 +442,12 @@ class GDU_EditorProvider {
 						<br/>
 						<div id="btnExportTAP" class="buttonLike">Export to TAP</div>
 						<br/>
-						<div id="btnExportBOR" class="buttonLike">Export to Boriel</div>
-						<br>
+						<div id="btnExportBOR" class="buttonLike">Export to Boriel ASM</div>
+						<br/>
+						<div id="btnExportDIM" class="buttonLike">Export to Boriel DIM</div>
+						<br/>
 						<div id="btnExportASM" class="buttonLike">Export to ASM</div>
-						<br>
+						<br/>
 						<div id="btnExportDATA" class="buttonLike">Export to DATA</div>
 					</div>
 				</div>
@@ -455,9 +484,10 @@ class GDU_EditorProvider {
                     await this.ExportToBIN(tapFileName, data);
                     return;
                 }
-            case "exportBOR": // Expport to BOR
+            case "exportBOR": // Expport to Boriel ASM
+            case "exportDIM": // Export to Boriel DIM
             case "exportASM": // Expport to ASM
-            case "exportDATA": // Export to DATA
+            case "exportDATA": // Export to DATA			
                 {
                     // Test data
                     let tapFileName = message.fileName;

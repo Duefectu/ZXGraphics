@@ -3,6 +3,15 @@ html, body {
 	font-size: 14px;
 }
 
+input{
+	display: unset !important;
+	width: unset !important;
+}
+
+.input100{
+	width: 100% !important;
+}
+
 .opacity{
 	position: fixed;
 	width: 100vw;
@@ -25,6 +34,7 @@ html, body {
 }
 
 .modalWindow{
+	position: relative;
 	background-color: gray;
 	border: 1px solid white;
 	width: 400px;
@@ -39,6 +49,35 @@ html, body {
 	width: 75px;
 	display: inline-block;
 	text-align: center;
+}
+
+.buttonModal:hover{
+	border: 1px solid black;
+}
+
+.radioButton{
+	width: 32px;
+	margin-left: 64px;
+	display: inline-block;
+}
+
+.modalButtons{
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
+	text-align: right;
+}
+
+.bgGreen{
+	background-color: green;
+}
+
+.bgRed{
+	background-color: red;
+}
+
+.noWidth{
+	width: unset;
 }
 
 .main{

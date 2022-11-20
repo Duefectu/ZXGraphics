@@ -12,7 +12,10 @@ The editor can handle files with the following extensions:
 
 In addition to allowing editing of these file types, data can be exported in `.tap` format for loading from an emulator (thanks to the export routine that has been developed by Hash6iron) or `.bas`, a format specifically designed for use in ZX Boriel Basic.
 
-This is a first version, we are working on expanding functionalities and we would like to hear your opinion.
+We are working on expanding functionalities and we would like to hear your opinion.
+
+## How to start
+Create a new empty file with the extenson .gdu, .udg or .fnt in the VSCode file explorer and open it.
 
 ## Help & suggestions
 - Twitter: [@Duefectu](https://twitter.com/duefectu)
@@ -36,3 +39,10 @@ This is a first version, we are working on expanding functionalities and we woul
 - © 2022 DuefectuCorp
 - `MIT License`: https://en.wikipedia.org/wiki/MIT_License
 
+## Versions
+### v0.0.1
+- Initial version
+### v0.0.2
+- Open new empty files now offers to load default data
+- Renamed option for export "Boriel" to "Boriel ASM"
+- Added option for export to "Boriel DIM" format
