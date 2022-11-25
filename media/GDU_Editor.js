@@ -94,8 +94,9 @@
 			btnCut.onclick=this.btnCut_Click;
 			btnCopy.onclick=this.btnCopy_Click;
 			btnPaste.onclick=this.btnPaste_Click;
-			/*
+
 			btnHorizontalMirror.onclick=this.btnHorizontalMirror_Click;
+			/*
 			btnVerticalMirror.onclick=this.btnVerticalMirror_Click;
 			btnRotateLeft.onclick=this.btnRotateLeft_Click;
 			btnRotateRight.onclick=this.btnRotateRight_Click;
@@ -1088,24 +1089,70 @@
 		}
 
 
-		/*
 		btnHorizontalMirror_Click(){
-			let buffer=[];
-			let idPattern=editor.selectedPattern;
-			let max=(editor.patternWidth*editor.patternHeight)+idPattern;
-			for(var n=idPattern; n<max; n++){
-				let pattern=editor.patterns[n];
-				let id=0;
-				for(var y=0; y<8; y++){
-					for(var x=0; x<8; x++){
-						let value=pattern.Points[id];						
-						buffer.push(value);
-						id++;
-					}
+			let maxX=editor.patternWidth*8;
+			let medX=maxX/2;
+			let maxY=editor.patternHeight*8;
+
+			for(let y=0; y<maxY; y++){
+				let ry=y % 8;
+				for(let x=0; x<medX; x++){
+					// Get left point
+					let rx=x % 8;
+					let idPl=editor.GetAbsolutePattern(x,y);
+					let idxl=(ry*8)+rx;
+					let vl=editor.patterns[idPl].Points[idxl];
+
+					// Get right point
+					let px=maxX-1-x;
+					let rpx=px % 8;
+					let idPr=editor.GetAbsolutePattern(px,y);
+					let idxr=(ry*8)+rpx;
+					let vr=editor.patterns[idPr].Points[idxr];
+
+					// Set left point
+					editor.patterns[idPl].Points[idxl]=vr;
+					let click={
+						type: 'editor_click',
+						color: vr,
+						old: vl,
+						x: rx,
+						y: ry,
+						pattern: idPl
+					};
+					editor.editorClicks.push(click);
+					vscode.postMessage(click);
+
+					// Set right point
+					editor.patterns[idPr].Points[idxr]=vl;
+					click={
+						type: 'editor_click',
+						color: vl,
+						old: vr,
+						x: rpx,
+						y: ry,
+						pattern: idPr
+					};
+					editor.editorClicks.push(click);
+					vscode.postMessage(click);
+
 				}
 			}
+
+			editor.RedrawEditor();
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				editor.RedrawPattern(id);
+			}
 		}
-		*/
+
+
+		GetAbsolutePattern(x,y){
+			let idPX=parseInt(x/8);
+			let idPY=parseInt(y/8);
+			let idPattern=editor.selectedPattern+idPX+(idPY*editor.patternWidth);
+			return idPattern;
+		}
 
 
 		/* - New ------------------------------------------------------------------------------- */

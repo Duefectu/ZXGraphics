@@ -2,7 +2,7 @@
 	"name": "zxgraphics",
 	"displayName": "ZX Graphics Editor",
 	"description": "Graphics editor for ZX Spectrum developers",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"publisher": "DuefectuCorp",
 	"private": false,
 	"license": "MIT",
@@ -12,7 +12,7 @@
 		"url": "https://github.com/Duefectu/ZXGraphics"
 	},
 	"engines": {
-		"vscode": "^1.65.0"
+		"vscode": "^1.50.0"
 	},
 	"categories": [
 		"Visualization",

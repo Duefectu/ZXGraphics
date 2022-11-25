@@ -28,7 +28,7 @@ Create a new empty file with the extenson .gdu, .udg or .fnt in the VSCode file 
 
 ## Credits and acknowledgements
 - `Idea, test and development`:  Duefectu ([@Duefectu](https://twitter.com/duefectu) - duefectucorp@gmail.com)
-- `TAP export routine`: Hash6iron ([@hash6iron](https://twitter.com/hash6iron) - has6iron@gmail.com)
+- `TAP export routine`: Hash6iron ([@hash6iron](https://twitter.com/hash6iron) - hash6iron@gmail.com)
 - `Boriel ZX Basic`: https://zxbasic.readthedocs.io/en/latest/
 
 ## Suport me
@@ -40,9 +40,12 @@ Create a new empty file with the extenson .gdu, .udg or .fnt in the VSCode file 
 - `MIT License`: https://en.wikipedia.org/wiki/MIT_License
 
 ## Versions
-### v0.0.1
-- Initial version
+### v0.0.3
+- Minimum version set to 1.50.0 or newer
+- Hash6iron mail fixed in Readme.md file
 ### v0.0.2
 - Open new empty files now offers to load default data
 - Renamed option for export "Boriel" to "Boriel ASM"
 - Added option for export to "Boriel DIM" format
+### v0.0.1
+- Initial version
