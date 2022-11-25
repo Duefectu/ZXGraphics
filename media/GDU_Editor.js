@@ -96,8 +96,8 @@
 			btnPaste.onclick=this.btnPaste_Click;
 
 			btnHorizontalMirror.onclick=this.btnHorizontalMirror_Click;
-			/*
 			btnVerticalMirror.onclick=this.btnVerticalMirror_Click;
+			/*
 			btnRotateLeft.onclick=this.btnRotateLeft_Click;
 			btnRotateRight.onclick=this.btnRotateRight_Click;
 			btnShiftLeft.onclick=this.btnShiftLeft_Click;
@@ -1131,6 +1131,64 @@
 						old: vr,
 						x: rpx,
 						y: ry,
+						pattern: idPr
+					};
+					editor.editorClicks.push(click);
+					vscode.postMessage(click);
+
+				}
+			}
+
+			editor.RedrawEditor();
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				editor.RedrawPattern(id);
+			}
+		}
+
+
+		btnVerticalMirror_Click(){
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+			let medY=maxY/2;
+
+			for(let x=0; x<maxX; x++){
+				let rx=x % 8;
+				for(let y=0; y<medY; y++){
+					// Get up point
+					let ry=y % 8;
+					let idPl=editor.GetAbsolutePattern(x,y);
+					let idxl=(ry*8)+rx;
+					let vl=editor.patterns[idPl].Points[idxl];
+
+					// Get down point
+					let py=maxY-1-y;
+					let rpy=py % 8;
+					let idPr=editor.GetAbsolutePattern(x,py);
+					let idxr=(rpy*8)+rx;
+					let vr=editor.patterns[idPr].Points[idxr];
+
+					// Set up point
+					editor.patterns[idPl].Points[idxl]=vr;
+					let click={
+						type: 'editor_click',
+						color: vr,
+						old: vl,
+						x: rx,
+						y: ry,
+						pattern: idPl
+					};
+					editor.editorClicks.push(click);
+					vscode.postMessage(click);
+
+					// Set down point
+					editor.patterns[idPr].Points[idxr]=vl;
+					click={
+						type: 'editor_click',
+						color: vl,
+						old: vr,
+						x: rx,
+						y: rpy,
 						pattern: idPr
 					};
 					editor.editorClicks.push(click);

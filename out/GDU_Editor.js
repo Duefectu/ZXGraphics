@@ -391,8 +391,8 @@ class GDU_EditorProvider {
 							<div id="btnPaste" class="toolBarButton" title="Paste into actual pattern"><img src="${imagesUri}/Paste.png"></div>
 							<div class="toolBarSpace"></div>
 							<div id="btnHorizontalMirror" class="toolBarButton" title="Horizontal mirror"><img src="${imagesUri}/Horizontal Mirror.png"></div>
-							<!--
 							<div id="btnVerticalMirror" class="toolBarButton" title="Vertical mirror"><img src="${imagesUri}/Vertical Mirror.png"></div>
+							<!--
 							<div class="toolBarSpace"></div>
 							<div id="btnRotateLeft" class="toolBarButton" title="Rotate left"><img src="${imagesUri}/Rotate Left.png"></div>
 							<div id="btnRotateRight" class="toolBarButton" title="Rotate right"><img src="${imagesUri}/Rotate Right.png"></div>
