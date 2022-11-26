@@ -40,6 +40,8 @@ Create a new empty file with the extenson .gdu, .udg or .fnt in the VSCode file 
 - `MIT License`: https://en.wikipedia.org/wiki/MIT_License
 
 ## Versions
+### v0.0.5
+- Removed restriction on pair grouping of patterns when using shift options
 ### v0.0.4
 - Restored minumun version of VSCode to 1.65.0
 ### v0.0.3

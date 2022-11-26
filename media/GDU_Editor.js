@@ -1330,11 +1330,6 @@
 			let maxX=editor.patternWidth*8;
 			let maxY=editor.patternHeight*8;
 
-			if(maxX!=maxY){
-				editor.ShowError("Rotation is only allowed in groups of patterns of the same width and height.");
-				return;
-			}
-
 			for(let y=0; y<maxY; y++){
 				for(let x=0; x<maxX; x++){
 					// Read point 1
@@ -1375,11 +1370,6 @@
 		btnShiftRight_Click(){
 			let maxX=editor.patternWidth*8;
 			let maxY=editor.patternHeight*8;
-
-			if(maxX!=maxY){
-				editor.ShowError("Rotation is only allowed in groups of patterns of the same width and height.");
-				return;
-			}
 
 			for(let y=0; y<maxY; y++){
 				for(let x=0; x<maxX; x++){
@@ -1422,11 +1412,6 @@
 			let maxX=editor.patternWidth*8;
 			let maxY=editor.patternHeight*8;
 
-			if(maxX!=maxY){
-				editor.ShowError("Rotation is only allowed in groups of patterns of the same width and height.");
-				return;
-			}
-
 			for(let y=0; y<maxY; y++){
 				for(let x=0; x<maxX; x++){
 					// Read point 1
@@ -1467,11 +1452,6 @@
 		btnShiftDown_Click(){
 			let maxX=editor.patternWidth*8;
 			let maxY=editor.patternHeight*8;
-
-			if(maxX!=maxY){
-				editor.ShowError("Rotation is only allowed in groups of patterns of the same width and height.");
-				return;
-			}
 
 			for(let y=0; y<maxY; y++){
 				for(let x=0; x<maxX; x++){
