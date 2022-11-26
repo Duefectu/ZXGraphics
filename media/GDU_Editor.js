@@ -20,6 +20,46 @@
 		}
 	}
 
+
+	class FullPoint{
+		constructor(){
+			this.x=0;
+			this.y=0;
+			this.idPattern=0;
+			this.value=0;
+			this.idx=0;
+		}
+
+		static GetData(x,y){
+			let idPX=parseInt(x/8);
+			let idPY=parseInt(y/8);
+			let data=new FullPoint();
+			data.idPattern=editor.selectedPattern+idPX+(idPY*editor.patternWidth);
+			data.x=x % 8;
+			data.y=y % 8;
+			data.idx=data.x+(data.y*8);
+			data.value=editor.patterns[data.idPattern].Points[data.idx];
+			return data;
+		}
+
+		static SetData(x,y,value){
+			let d=FullPoint.GetData(x,y);
+			let v=editor.patterns[d.idPattern].Points[d.idx];
+			editor.patterns[d.idPattern].Points[d.idx]=value;
+			d.value=v;
+			return d;
+		}
+
+		static SetTempData(x,y,value){
+			let d=FullPoint.GetData(x,y);
+			let v=editor.patterns[d.idPattern].Points[d.idx];
+			editor.backPatterns[d.idPattern].Points[d.idx]=value;
+			d.value=v;
+			return d;
+		}
+	}
+
+	
 	class GDU_Editor {
 		constructor() {
 			console.debug("GDU_Editor");
@@ -40,6 +80,7 @@
 			//this.divPatternsMain=document.querySelector('#divPatternsMain');
 			this.patterns=new Array;		// Patterns
 			this.editorClicks=new Array;	// Clicks on editor for UNDO and REDO
+			this.backPatterns=new Array;	// Void pattern for rotate operatioons
 
 			this.mouseX=0;					// Mouse X
 			this.mouseY=0;					// Mouse Y
@@ -89,6 +130,7 @@
 
 			btnNewCancel.onclick=this.New_Cancel;
 			btnNewOK.onclick=this.New_OK;
+			btnErrorOK.onclick=this.Error_OK;
 
 			btnClear.onclick=this.btnClear_Click;
 			btnCut.onclick=this.btnCut_Click;
@@ -97,14 +139,12 @@
 
 			btnHorizontalMirror.onclick=this.btnHorizontalMirror_Click;
 			btnVerticalMirror.onclick=this.btnVerticalMirror_Click;
-			/*
 			btnRotateLeft.onclick=this.btnRotateLeft_Click;
 			btnRotateRight.onclick=this.btnRotateRight_Click;
 			btnShiftLeft.onclick=this.btnShiftLeft_Click;
 			btnShiftRight.onclick=this.btnShiftRight_Click;
 			btnShiftUp.onclick=this.btnShiftUp_Click;
 			btnShiftDown.onclick=this.btnShiftDown_Click;
-			*/
 			
 			window.addEventListener('contextmenu', e => {
 				e.stopImmediatePropagation()
@@ -135,6 +175,7 @@
 			this.CreatePatterns();
 			this.CreateEditor();
 			this.CreatePreview();
+			this.CreateBackPatterns();
 		}
 
 
@@ -316,6 +357,18 @@
 			for(var n=0; n<this.patternsCount; n++){
 				this.CreatePattern(n,String.fromCharCode(patNumber))				
 				patNumber++;
+			}
+		}
+
+
+		CreateBackPatterns(){
+			editor.backPatterns=[];
+			for(let pat=0; pat<editor.patternsCount; pat++){
+				let pattern=new Pattern();
+				for(var poi=0; poi<64; poi++){
+					pattern.Points[poi]=0;
+				}
+				editor.backPatterns.push(pattern);
 			}
 		}
 
@@ -1095,47 +1148,38 @@
 			let maxY=editor.patternHeight*8;
 
 			for(let y=0; y<maxY; y++){
-				let ry=y % 8;
 				for(let x=0; x<medX; x++){
-					// Get left point
-					let rx=x % 8;
-					let idPl=editor.GetAbsolutePattern(x,y);
-					let idxl=(ry*8)+rx;
-					let vl=editor.patterns[idPl].Points[idxl];
-
-					// Get right point
-					let px=maxX-1-x;
-					let rpx=px % 8;
-					let idPr=editor.GetAbsolutePattern(px,y);
-					let idxr=(ry*8)+rpx;
-					let vr=editor.patterns[idPr].Points[idxr];
-
-					// Set left point
-					editor.patterns[idPl].Points[idxl]=vr;
-					let click={
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// Read point 2
+					let x2=maxX-1-x;
+					let y2=y;
+					let p2=FullPoint.GetData(x2,y2);
+					
+					// Set point 1
+					let p1r=FullPoint.SetData(x,y,p2.value);
+					let c1={
 						type: 'editor_click',
-						color: vr,
-						old: vl,
-						x: rx,
-						y: ry,
-						pattern: idPl
+						color: p2.value,
+						old: p1r.value,
+						x: p1r.x,
+						y: p1r.y,
+						pattern: p1r.idPattern
 					};
-					editor.editorClicks.push(click);
-					vscode.postMessage(click);
-
-					// Set right point
-					editor.patterns[idPr].Points[idxr]=vl;
-					click={
+					editor.editorClicks.push(c1);
+					vscode.postMessage(c1);
+					// Set point 2
+					let p2r=FullPoint.SetData(x2,y2,p1.value);
+					let c2={
 						type: 'editor_click',
-						color: vl,
-						old: vr,
-						x: rpx,
-						y: ry,
-						pattern: idPr
+						color: p1.value,
+						old: p2r.value,
+						x: p2r.x,
+						y: p2r.y,
+						pattern: p2r.idPattern
 					};
-					editor.editorClicks.push(click);
-					vscode.postMessage(click);
-
+					editor.editorClicks.push(c2);
+					vscode.postMessage(c2);
 				}
 			}
 
@@ -1153,47 +1197,38 @@
 			let medY=maxY/2;
 
 			for(let x=0; x<maxX; x++){
-				let rx=x % 8;
 				for(let y=0; y<medY; y++){
-					// Get up point
-					let ry=y % 8;
-					let idPl=editor.GetAbsolutePattern(x,y);
-					let idxl=(ry*8)+rx;
-					let vl=editor.patterns[idPl].Points[idxl];
-
-					// Get down point
-					let py=maxY-1-y;
-					let rpy=py % 8;
-					let idPr=editor.GetAbsolutePattern(x,py);
-					let idxr=(rpy*8)+rx;
-					let vr=editor.patterns[idPr].Points[idxr];
-
-					// Set up point
-					editor.patterns[idPl].Points[idxl]=vr;
-					let click={
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// Read point 2
+					let x2=x;
+					let y2=maxY-1-y;
+					let p2=FullPoint.GetData(x2,y2);
+					
+					// Set point 1
+					let p1r=FullPoint.SetData(x,y,p2.value);
+					let c1={
 						type: 'editor_click',
-						color: vr,
-						old: vl,
-						x: rx,
-						y: ry,
-						pattern: idPl
+						color: p2.value,
+						old: p1r.value,
+						x: p1r.x,
+						y: p1r.y,
+						pattern: p1r.idPattern
 					};
-					editor.editorClicks.push(click);
-					vscode.postMessage(click);
-
-					// Set down point
-					editor.patterns[idPr].Points[idxr]=vl;
-					click={
+					editor.editorClicks.push(c1);
+					vscode.postMessage(c1);
+					// Set point 2
+					let p2r=FullPoint.SetData(x2,y2,p1.value);
+					let c2={
 						type: 'editor_click',
-						color: vl,
-						old: vr,
-						x: rx,
-						y: rpy,
-						pattern: idPr
+						color: p1.value,
+						old: p2r.value,
+						x: p2r.x,
+						y: p2r.y,
+						pattern: p2r.idPattern
 					};
-					editor.editorClicks.push(click);
-					vscode.postMessage(click);
-
+					editor.editorClicks.push(c2);
+					vscode.postMessage(c2);
 				}
 			}
 
@@ -1205,11 +1240,273 @@
 		}
 
 
-		GetAbsolutePattern(x,y){
-			let idPX=parseInt(x/8);
-			let idPY=parseInt(y/8);
-			let idPattern=editor.selectedPattern+idPX+(idPY*editor.patternWidth);
-			return idPattern;
+		btnRotateLeft_Click(){	
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+
+			if(maxX!=maxY){
+				editor.ShowError("Rotation is only allowed in groups of patterns of the same width and height.");
+				return;
+			}
+
+			for(let y=0; y<maxY; y++){
+				for(let x=0; x<maxX; x++){
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// calc point 2
+					let x2=y;
+					let y2=maxX-1-x;
+					
+					// Set point 2
+					let p2=FullPoint.SetTempData(x2,y2,p1.value);
+					let c={
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
+		}
+
+
+		btnRotateRight_Click(){	
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+
+			if(maxX!=maxY){
+				editor.ShowError("Rotation is only allowed in groups of patterns of the same width and height.");
+				return;
+			}
+
+			for(let y=0; y<maxY; y++){
+				for(let x=0; x<maxX; x++){
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// calc point 2
+					let x2=maxY-1-y;
+					let y2=x;
+					
+					// Set point 2
+					let p2=FullPoint.SetTempData(x2,y2,p1.value);
+					let c={
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
+		}
+
+
+		btnShiftLeft_Click(){
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+
+			if(maxX!=maxY){
+				editor.ShowError("Rotation is only allowed in groups of patterns of the same width and height.");
+				return;
+			}
+
+			for(let y=0; y<maxY; y++){
+				for(let x=0; x<maxX; x++){
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// calc point 2
+					let x2=x-1;
+					if(x2<0){
+						x2=maxX-1;
+					}
+					let y2=y;
+					
+					// Set point 2
+					let p2=FullPoint.SetTempData(x2,y2,p1.value);
+					let c={
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
+		}
+
+
+		btnShiftRight_Click(){
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+
+			if(maxX!=maxY){
+				editor.ShowError("Rotation is only allowed in groups of patterns of the same width and height.");
+				return;
+			}
+
+			for(let y=0; y<maxY; y++){
+				for(let x=0; x<maxX; x++){
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// calc point 2
+					let x2=x+1;
+					if(x2>=maxX){
+						x2=0;
+					}
+					let y2=y;
+					
+					// Set point 2
+					let p2=FullPoint.SetTempData(x2,y2,p1.value);
+					let c={
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
+		}
+
+
+		btnShiftUp_Click(){
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+
+			if(maxX!=maxY){
+				editor.ShowError("Rotation is only allowed in groups of patterns of the same width and height.");
+				return;
+			}
+
+			for(let y=0; y<maxY; y++){
+				for(let x=0; x<maxX; x++){
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// calc point 2
+					let x2=x;
+					let y2=y-1;
+					if(y2<0){
+						y2=maxY-1;
+					}
+					
+					// Set point 2
+					let p2=FullPoint.SetTempData(x2,y2,p1.value);
+					let c={
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
+		}
+
+
+		btnShiftDown_Click(){
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+
+			if(maxX!=maxY){
+				editor.ShowError("Rotation is only allowed in groups of patterns of the same width and height.");
+				return;
+			}
+
+			for(let y=0; y<maxY; y++){
+				for(let x=0; x<maxX; x++){
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// calc point 2
+					let x2=x;
+					let y2=y+1;
+					if(y2>=maxY){
+						y2=0;
+					}
+					
+					// Set point 2
+					let p2=FullPoint.SetTempData(x2,y2,p1.value);
+					let c={
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
 		}
 
 
@@ -1269,6 +1566,17 @@
 			for(var n=0; n<controls.length; n++){
 				controls[n].style.display="none";
 			}
+		}
+
+
+		ShowError(txt){
+			divLblError.innerHTML=txt;
+			modalError.style.display="flex";
+		}
+
+
+		Error_OK(){			
+			modalError.style.display="none";
 		}
 	}
 

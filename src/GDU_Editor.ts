@@ -378,6 +378,15 @@ export class GDU_EditorProvider implements vscode.CustomEditorProvider<GDU_Docum
 			<body>
 				<div id="divSelectorColores" class="selectorColores"></div>
 
+				<div id="modalError" class="modal">
+					<div class="modalWindow">
+						<div id="divLblError"></div>
+						<div class="modalButtons">
+							<div id="btnErrorOK" class="buttonModal bgGreen">Close</div>
+						</div>
+					</div>
+				</div>
+
 				<div id="modalExport" class="modal">
 					<div class="modalWindow">
 						<div>
@@ -483,7 +492,6 @@ export class GDU_EditorProvider implements vscode.CustomEditorProvider<GDU_Docum
 							<div class="toolBarSpace"></div>
 							<div id="btnHorizontalMirror" class="toolBarButton" title="Horizontal mirror"><img src="${imagesUri}/Horizontal Mirror.png"></div>
 							<div id="btnVerticalMirror" class="toolBarButton" title="Vertical mirror"><img src="${imagesUri}/Vertical Mirror.png"></div>
-							<!--
 							<div class="toolBarSpace"></div>
 							<div id="btnRotateLeft" class="toolBarButton" title="Rotate left"><img src="${imagesUri}/Rotate Left.png"></div>
 							<div id="btnRotateRight" class="toolBarButton" title="Rotate right"><img src="${imagesUri}/Rotate Right.png"></div>
@@ -492,7 +500,6 @@ export class GDU_EditorProvider implements vscode.CustomEditorProvider<GDU_Docum
 							<div id="btnShiftRight" class="toolBarButton" title="Shift right"><img src="${imagesUri}/Shift Right.png"></div>
 							<div id="btnShiftUp" class="toolBarButton" title="Shift up"><img src="${imagesUri}/Shift Up.png"></div>
 							<div id="btnShiftDown" class="toolBarButton" title="Shift down"><img src="${imagesUri}/Shift Down.png"></div>
-							-->
 						</div>						
 						<div id="divEditor"></div>
 					</div>

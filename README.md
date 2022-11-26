@@ -40,7 +40,12 @@ Create a new empty file with the extenson .gdu, .udg or .fnt in the VSCode file 
 - `MIT License`: https://en.wikipedia.org/wiki/MIT_License
 
 ## Versions
+### v0.0.4
+- Restored minumun version of VSCode to 1.65.0
 ### v0.0.3
+- Added mirror buttons
+- Added rotation buttons
+- Added shift buttons
 - Minimum version set to 1.50.0 or newer
 - Hash6iron mail fixed in Readme.md file
 ### v0.0.2
