@@ -873,7 +873,17 @@
 
 
 		ExportToBOR_DO(data,labelName){
-			let txt=labelName+":\r\nASM\r\n";
+			debugger;
+			let txt="";
+			switch(data.length){
+				case 168:
+					txt="' Sample code\r\n' -----------\r\n' POKE (UINTEGER 23675,@"+labelName+")\r\n\r\n";
+					break;
+				case 768:
+					txt="' Sample code\r\n' -----------\r\n' POKE (UINTEGER 23606,@"+labelName+"-256)\r\n\r\n";
+					break;
+			}
+			txt=txt+labelName+":\r\nASM\r\n";
 			let counter=0;
 			let line=""
 			for(var n=0; n<data.length; n++){
@@ -900,7 +910,17 @@
 
 		ExportToDIM_DO(data,varName){
 			let lines=data.length/8;			
-			let txt="DIM "+varName+"("+lines+",8) AS uByte => { _\r\n";
+			let txt="";
+			switch(data.length){
+				case 168:
+					txt="' Sample code\r\n' -----------\r\n' POKE (uInteger 23675,@"+varName+")\r\n\r\n";
+					break;
+				case 768:
+					txt="' Sample code\r\n' -----------\r\n' POKE (uInteger 23606,@"+varName+"-256)\r\n\r\n";
+					break;
+			}
+			txt=txt+"DIM "+varName+"("+(lines-1)+",7) AS uByte => { _\r\n";
+
 			let counter=0;
 			let line=""
 			for(var n=0; n<data.length; n++){

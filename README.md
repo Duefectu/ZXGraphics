@@ -15,7 +15,11 @@ In addition to allowing editing of these file types, data can be exported in `.t
 We are working on expanding functionalities and we would like to hear your opinion.
 
 ## How to start
-Create a new empty file with the extenson .gdu, .udg or .fnt in the VSCode file explorer and open it.
+- Create a new empty file with the extenson .gdu, .udg or .fnt
+- Open the new file with VSCode
+- Select what type of data you want to create: GDU/UDG or Font
+- Edit the graphics characters
+- Export in your desired format
 
 ## Help & suggestions
 - Twitter: [@Duefectu](https://twitter.com/duefectu)
@@ -40,6 +44,10 @@ Create a new empty file with the extenson .gdu, .udg or .fnt in the VSCode file 
 - `MIT License`: https://en.wikipedia.org/wiki/MIT_License
 
 ## Versions
+### v0.0.6
+- Added sample usage as REM in BORIEL export files, ASM and DIM
+- Fixed a bug in the array bounds definition in BORIEL DIM export
+- How to start section updated
 ### v0.0.5
 - Removed restriction on pair grouping of patterns when using shift options
 ### v0.0.4
