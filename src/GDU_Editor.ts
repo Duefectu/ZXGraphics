@@ -456,7 +456,7 @@ export class GDU_EditorProvider implements vscode.CustomEditorProvider<GDU_Docum
 						<div id="divToolBar" class="toolBar">
 							<div class="toolBarItem" style="width: 64px;">Zoom <span id="txtZoom">32x</span></div>
 							<div class="toolBarItem toolBar-slider" style="width: 64px;">
-								<input id="sldZoom" type="range" min=1 max=6 value=5 style="width: 100%;"/>
+								<input id="sldZoom" type="range" min=0 max=8 value=5 style="width: 100%;"/>
 							</div>
 							<div class="toolBarSpace"></div>
 							<div class="toolBarItem">Width</div>

@@ -44,6 +44,9 @@ We are working on expanding functionalities and we would like to hear your opini
 - `MIT License`: https://en.wikipedia.org/wiki/MIT_License
 
 ## Versions
+### v0.0.7
+- Added char number, in fonts, or GDU number to the patterns window.
+- Added zoom level, now: 1, 2, 4, 8, 16, 24, 32, 48 and 64
 ### v0.0.6
 - Added sample usage as REM in BORIEL export files, ASM and DIM
 - Fixed a bug in the array bounds definition in BORIEL DIM export

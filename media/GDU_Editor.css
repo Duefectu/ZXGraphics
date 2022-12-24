@@ -233,3 +233,7 @@ input{
 .itemColor:hover{
 	border: 1px dashed red;
 }
+
+.cyan{
+	color: cyan;
+}

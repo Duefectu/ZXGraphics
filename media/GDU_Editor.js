@@ -63,7 +63,7 @@
 	class GDU_Editor {
 		constructor() {
 			console.debug("GDU_Editor");
-			
+			this.scales=[ 1, 2, 4, 8, 16, 24, 32, 48, 64 ];
 			this.selectedPattern=0;			// Selected pattern
 			this.patternMode=0;				// Pattern editing mode: 0=GDU, 1=Font, 2=Free(256)
 			this.patternWidth=1;			// Width of editing patterns
@@ -374,13 +374,28 @@
 
 
 		CreatePattern(id,label){
+			let num=id;
+			switch(this.patternMode){
+				case 0:
+					this.patternsCount=21;
+					num++;
+					break;
+				case 1:
+					this.patternsCount=96;
+					num+=32;
+					break;
+			}
+
 			let div=document.createElement('div');
 			div.id="divPattern_"+id;
 			div.className="patterns-div";
 			div.onclick=this.Pattern_Click;
 			let divLabel=document.createElement('div');
 			divLabel.className="patterns-itemLabel";
-			divLabel.innerHTML=label+"&nbsp;";
+			if(label==" "){
+				label="&nbsp;";
+			}
+			divLabel.innerHTML="<span class='cyan'>"+label+"</span>&nbsp;&nbsp;"+num;
 			div.append(divLabel);
 			let divItem=document.createElement('div');
 			divItem.className="patterns-item";
@@ -608,7 +623,7 @@
 
 		Editor_MouseWhell(e){	
 			let value=sldZoom.value;
-			if(e.wheelDelta<0 && value<6){
+			if(e.wheelDelta<0 && value<8){
 				sldZoom.value++;
 			} else if(e.wheelDelta>0 && value>0){
 				sldZoom.value--;
@@ -686,7 +701,7 @@
 		Zooom_Update(){
 			let value=sldZoom.value;
 			editor.lastZoom=value;
-			editor.zoom=Math.pow(2,value);
+			editor.zoom=this.scales[value]; // Math.pow(2,value);
 			txtZoom.innerHTML=editor.zoom+"x";
 			editor.RedrawEditor();
 			editor.RedrawEditor();
