@@ -409,6 +409,7 @@ class GDU_EditorProvider {
 							<div id="btnShiftRight" class="toolBarButton" title="Shift right"><img src="${imagesUri}/Shift Right.png"></div>
 							<div id="btnShiftUp" class="toolBarButton" title="Shift up"><img src="${imagesUri}/Shift Up.png"></div>
 							<div id="btnShiftDown" class="toolBarButton" title="Shift down"><img src="${imagesUri}/Shift Down.png"></div>
+							<div id="btnInvert" class="toolBarButton" title="Invert"><img src="${imagesUri}/Invert.png"></div>
 						</div>						
 						<div id="divEditor"></div>
 					</div>

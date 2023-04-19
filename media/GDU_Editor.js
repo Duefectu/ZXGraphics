@@ -145,6 +145,7 @@
 			btnShiftRight.onclick=this.btnShiftRight_Click;
 			btnShiftUp.onclick=this.btnShiftUp_Click;
 			btnShiftDown.onclick=this.btnShiftDown_Click;
+			btnInvert.onclick=this.btnShiftInvert_Click;
 			
 			window.addEventListener('contextmenu', e => {
 				e.stopImmediatePropagation()
@@ -1524,6 +1525,35 @@
 			editor.RedrawEditor();
 		}
 
+		btnShiftInvert_Click(){
+			let maxX = editor.patternWidth * 8;
+			let maxY = editor.patternHeight * 8;
+
+			for(let y = 0; y < maxY; y++){
+				for(let x = 0; x < maxX; x++){
+					let p1 = FullPoint.GetData(x, y);
+					let p2 = FullPoint.SetTempData(x, y, p1.value ^ 1);
+					let c = {
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
+		}
 
 		/* - New ------------------------------------------------------------------------------- */
 		ModalNewShow(show){
