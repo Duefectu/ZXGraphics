@@ -409,7 +409,19 @@ class GDU_EditorProvider {
 							<div id="btnShiftRight" class="toolBarButton" title="Shift right"><img src="${imagesUri}/Shift Right.png"></div>
 							<div id="btnShiftUp" class="toolBarButton" title="Shift up"><img src="${imagesUri}/Shift Up.png"></div>
 							<div id="btnShiftDown" class="toolBarButton" title="Shift down"><img src="${imagesUri}/Shift Down.png"></div>
+							<div class="toolBarSpace"></div>
+							<div id="btnMoveLeft" class="toolBarButton" title="Move left"><img src="${imagesUri}/Move Left.png"></div>
+							<div id="btnMoveRight" class="toolBarButton" title="Move right"><img src="${imagesUri}/Move Right.png"></div>
+							<div id="btnMoveUp" class="toolBarButton" title="Move up"><img src="${imagesUri}/Move Up.png"></div>
+							<div id="btnMoveDown" class="toolBarButton" title="Move down"><img src="${imagesUri}/Move Down.png"></div>
+							<div class="toolBarSpace"></div>
 							<div id="btnInvert" class="toolBarButton" title="Invert"><img src="${imagesUri}/Invert.png"></div>
+							<div id="btnMask" class="toolBarButton" title="Mask"><img src="${imagesUri}/Mask.png"></div>
+							<!--
+							<div class="toolBarSpace"></div>
+							<div id="btnExport" class="toolBarButton" title="Export"><img src="${imagesUri}/Export.png"></div>
+							<div id="btnSettings" class="toolBarButton" title="Settings"><img src="${imagesUri}/Settings.png"></div>
+							-->
 						</div>						
 						<div id="divEditor"></div>
 					</div>

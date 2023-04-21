@@ -2,7 +2,7 @@
 	"name": "zxgraphics",
 	"displayName": "ZX Graphics Editor",
 	"description": "Graphics editor for ZX Spectrum developers",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"publisher": "DuefectuCorp",
 	"private": false,
 	"license": "MIT",

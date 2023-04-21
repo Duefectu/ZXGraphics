@@ -1,6 +1,6 @@
 # ZX Graphics Editor by DuefectuCorp
 
-![ZX Graphics ](documentation/example.png)
+![ZX Graphics ](documentation/Sample1.png)
 
 Tool for edit GDUs and Fonts for ZX Spectrum 48K/128K. With this editor you can create custom UDGs and fonts.
 
@@ -24,6 +24,7 @@ We are working on expanding functionalities and we would like to hear your opini
 ## Help & suggestions
 - Twitter: [@Duefectu](https://twitter.com/duefectu)
 - Mail: duefectucorp@gmail.com
+- GitHub: https://github.com/Duefectu/ZXGraphics
 
 ## More from DuefectuCorp
 - `Projects for ZX Spectrum`: https://zx.duefectucorp.com/
@@ -33,6 +34,7 @@ We are working on expanding functionalities and we would like to hear your opini
 ## Credits and acknowledgements
 - `Idea, test and development`:  Duefectu ([@Duefectu](https://twitter.com/duefectu) - duefectucorp@gmail.com)
 - `TAP export routine`: Hash6iron ([@hash6iron](https://twitter.com/hash6iron) - hash6iron@gmail.com)
+- `Invert option`: dinodork (https://github.com/dinodork)
 - `Boriel ZX Basic`: https://zxbasic.readthedocs.io/en/latest/
 
 ## Suport me
@@ -44,6 +46,11 @@ We are working on expanding functionalities and we would like to hear your opini
 - `MIT License`: https://en.wikipedia.org/wiki/MIT_License
 
 ## Versions
+### v0.0.8
+- Added button to move (not rotate) actual graphic
+- Added button to invert actual graphic. Original implementation by [@dinodork](https://github.com/dinodork)
+- Added button to create Mask from the actual graphic (first version, isn't perfect)
+- ![ZX Graphics ](documentation/Sample2.png)
 ### v0.0.7
 - Added char number, in fonts, or GDU number to the patterns window.
 - Added zoom level, now: 1, 2, 4, 8, 16, 24, 32, 48 and 64

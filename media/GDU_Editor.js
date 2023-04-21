@@ -141,11 +141,22 @@
 			btnVerticalMirror.onclick=this.btnVerticalMirror_Click;
 			btnRotateLeft.onclick=this.btnRotateLeft_Click;
 			btnRotateRight.onclick=this.btnRotateRight_Click;
+
 			btnShiftLeft.onclick=this.btnShiftLeft_Click;
 			btnShiftRight.onclick=this.btnShiftRight_Click;
 			btnShiftUp.onclick=this.btnShiftUp_Click;
 			btnShiftDown.onclick=this.btnShiftDown_Click;
-			btnInvert.onclick=this.btnShiftInvert_Click;
+			
+			btnMoveLeft.onclick=this.btnMoveLeft_Click;
+			btnMoveRight.onclick=this.btnMoveRight_Click;
+			btnMoveUp.onclick=this.btnMoveUp_Click;
+			btnMoveDown.onclick=this.btnMoveDown_Click;
+			
+			btnInvert.onclick=this.btnInvert_Click;
+			btnMask.onclick=this.btnMask_Click;
+
+			//btnExport.onclick=this.btnExport_Click;
+			//btnSettings.onclick=this.btnSettings_Click;
 			
 			window.addEventListener('contextmenu', e => {
 				e.stopImmediatePropagation()
@@ -155,15 +166,12 @@
 		
 		Timer_Tick(){
 			if(sldZoom.value!=editor.lastZoom){
-				console.log("TB_Zoom_Chenged");
 				editor.TB_Zoom_Changed();
 			}
 			if(txtWidth.value!=editor.lastWidth){
-				console.log("TB_Width_Changed");
 				editor.TB_Width_Changed();
 			}
 			if(txtHeight.value!=editor.lastHeight){
-				console.log("TB_Height_Changed");
 				editor.TB_Height_Changed();
 			}
 			setTimeout(editor.Timer_Tick,500);
@@ -318,7 +326,6 @@
 					for(var b=0; b<8; b++){
 						let bit=byte & 1;
 						pattern.Points[id]=bit;
-						//console.log(id);
 						id--;
 						byte=byte >> 1;
 					}
@@ -694,7 +701,6 @@
 
 		/* - ToolBar ----------------------------------------------------------------- */
 		TB_Zoom_Changed(e){
-			console.log("TB_Zoom_Changed");
 			editor.Zooom_Update();
 		}
 
@@ -1525,7 +1531,176 @@
 			editor.RedrawEditor();
 		}
 
-		btnShiftInvert_Click(){
+
+		btnMoveLeft_Click(){
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+
+			for(let y=0; y<maxY; y++){
+				for(let x=0; x<maxX; x++){
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// calc point 2
+					let x2=x-1;
+					if(x2<0){
+						x2=maxX-1;
+						p1.value=0;
+					}
+					let y2=y;
+					
+					// Set point 2
+					let p2=FullPoint.SetTempData(x2,y2,p1.value);
+					let c={
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
+		}
+
+
+		btnMoveRight_Click(){
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+
+			for(let y=0; y<maxY; y++){
+				for(let x=0; x<maxX; x++){
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// calc point 2
+					let x2=x+1;
+					if(x2>=maxX){
+						x2=0;
+						p1.value=0;
+					}
+					let y2=y;
+					
+					// Set point 2
+					let p2=FullPoint.SetTempData(x2,y2,p1.value);
+					let c={
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
+		}
+
+
+		btnMoveUp_Click(){
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+
+			for(let y=0; y<maxY; y++){
+				for(let x=0; x<maxX; x++){
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// calc point 2
+					let x2=x;
+					let y2=y-1;
+					if(y2<0){
+						y2=maxY-1;
+						p1.value=0;
+					}
+					
+					// Set point 2
+					let p2=FullPoint.SetTempData(x2,y2,p1.value);
+					let c={
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
+		}
+
+
+		btnMoveDown_Click(){
+			let maxX=editor.patternWidth*8;
+			let maxY=editor.patternHeight*8;
+
+			for(let y=0; y<maxY; y++){
+				for(let x=0; x<maxX; x++){
+					// Read point 1
+					let p1=FullPoint.GetData(x,y);
+					// calc point 2
+					let x2=x;
+					let y2=y+1;
+					if(y2>=maxY){
+						y2=0;
+						p1.value=0;
+					}
+					
+					// Set point 2
+					let p2=FullPoint.SetTempData(x2,y2,p1.value);
+					let c={
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();
+		}
+
+
+		btnInvert_Click(){
 			let maxX = editor.patternWidth * 8;
 			let maxY = editor.patternHeight * 8;
 
@@ -1554,6 +1729,123 @@
 			}
 			editor.RedrawEditor();
 		}
+
+
+		/* - Create Mask ------------------ */
+		btnMask_Click(){
+			let maxX = editor.patternWidth * 8;
+			let maxY = editor.patternHeight * 8;
+
+			// Get x bounds			
+			let boundX=new Array(maxY);
+			for(let y = 0; y < maxY; y++){
+				let min=maxX;
+				let max=0;
+				for(let x = 0; x < maxX; x++){
+					if(FullPoint.GetData(x, y).value==1){
+						min=x;
+						break;
+					}
+				}
+				for(let x = maxX-1; x >=0; x--){
+					if(FullPoint.GetData(x, y).value==1){
+						max=x;
+						break;
+					}
+				}
+				boundX[y]={
+					min: min,
+					max: max
+				};
+			}
+			// Get y bounds			
+			let boundY=new Array(maxX);
+			for(let x = 0; x < maxX; x++){
+				let min=maxY;
+				let max=0;
+				for(let y = 0; y < maxY; y++){
+					if(FullPoint.GetData(x, y).value==1){
+						min=y;
+						break;
+					}
+				}
+				for(let y = maxY-1; y >=0; y--){
+					if(FullPoint.GetData(x, y).value==1){
+						max=y;
+						break;
+					}
+				}
+				boundY[x]={
+					min: min,
+					max: max
+				};
+			}
+
+			// Generate Mask
+			let points=Array.from(Array(maxX), () => new Array(maxY));
+			for(let y = 0; y < maxY; y++){
+				for(let x = 0; x < maxX; x++){
+					points[x][y]=0;
+				}
+			}
+			// Mask x
+			for(let y = 0; y < maxY; y++){
+				let min=maxX;
+				let max=0;
+				let bound=boundX[y];
+				for(let x = 0; x < maxX; x++){
+					if(x<bound.min){
+						points[x][y]=1;
+					}
+					if(x>bound.max){
+						points[x][y]=1;
+					}
+				}
+			}
+			// Mask y
+			for(let x = 0; x < maxX; x++){
+				let min=maxY;
+				let max=0;
+				let bound=boundY[x];
+				for(let y = 0; y < maxY; y++){
+					if(y<bound.min){
+						points[x][y]=1;
+					}
+					if(y>bound.max){
+						points[x][y]=1;
+					}
+				}
+			}
+
+			// Draw mask
+			for(let y = 0; y < maxY; y++){
+				let txt="";
+				for(let x = 0; x < maxX; x++){
+					txt=txt+points[x][y]+",";
+					let p1 = FullPoint.GetData(x, y);
+					let p2 = FullPoint.SetTempData(x, y, points[x][y]);
+					let c = {
+						type: 'editor_click',
+						color: p2.value,
+						old: p1.value,
+						x: p2.x,
+						y: p2.y,
+						pattern: p2.idPattern
+					};
+					editor.editorClicks.push(c);
+					vscode.postMessage(c);
+				}
+			}
+			let maxP=editor.selectedPattern+(editor.patternWidth*editor.patternHeight);
+			for(let id=editor.selectedPattern; id<maxP; id++){
+				for(let idx=0; idx<64; idx++){
+					editor.patterns[id].Points[idx]=editor.backPatterns[id].Points[idx];
+				}
+				editor.RedrawPattern(id);
+			}
+			editor.RedrawEditor();			
+		}
+
 
 		/* - New ------------------------------------------------------------------------------- */
 		ModalNewShow(show){
